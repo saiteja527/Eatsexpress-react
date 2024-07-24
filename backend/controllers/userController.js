@@ -1,9 +1,9 @@
 import userModel from "../models/userModel.js";
-import jwt from 'jsonwebtoken'; 
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt';  // Ensure you are using bcryptjs
 import validator from 'validator';
 
 const loginUser = async (req, res) => {
-    const bcrypt = require('bcryptjs');
     const { email, password } = req.body;
     try {
         const user = await userModel.findOne({ email });
@@ -19,13 +19,13 @@ const loginUser = async (req, res) => {
         const token = createToken(user._id);
         res.status(200).json({ success: true, message: "User Logged in Successfully", token });
     } catch (error) {
-        console.error(error);
+        console.error("Login error:", error);
         res.status(500).json({ success: false, message: "Error logging in user" });
     }
 };
 
 const createToken = (id) => {
-    return jwt.sign({ id }, process.env.JWT_SECRET_KEY, { expiresIn: '1h' }); // Set token expiry
+    return jwt.sign({ id }, process.env.JWT_SECRET_KEY, { expiresIn: '1h' });
 };
 
 const registerUser = async (req, res) => {
@@ -54,7 +54,7 @@ const registerUser = async (req, res) => {
         const token = createToken(user._id);
         res.status(201).json({ success: true, message: "User registered successfully", token });
     } catch (error) {
-        console.error(error);
+        console.error("Registration error:", error);
         res.status(500).json({ success: false, message: "Error registering user" });
     }
 };
