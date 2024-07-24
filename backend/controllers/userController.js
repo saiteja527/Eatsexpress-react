@@ -1,9 +1,9 @@
 import userModel from "../models/userModel.js";
 import jwt from 'jsonwebtoken'; 
 import validator from 'validator';
-import bcrypt from 'bcrypt'
 
 const loginUser = async (req, res) => {
+    const bcrypt = require('bcryptjs')
     const { email, password } = req.body;
     try {
         const user = await userModel.findOne({ email });
