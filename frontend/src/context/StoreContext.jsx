@@ -34,15 +34,16 @@ const StoreContextProvider = (props) => {
       );
     }
   };
+
   const getTotalCartAmount = () => {
     let totalAmount = 0;
-    const keys = Object.keys(cartItems);
+    const keys = Object.keys(cartItems || {});
     keys.forEach((key) => {
       totalAmount += cartItems[key] > 0 ? Number(cartItems[key]) : 0;
     });
     return totalAmount;
-    };
-    
+  };
+
   const calcTotalAmount = () => {
     let netAmount = 0;
     food_list.map((item, index) => {
@@ -51,20 +52,20 @@ const StoreContextProvider = (props) => {
       }
     });
     return netAmount;
-    };
-    
+  };
+
   const fetchFoddList = async () => {
     const response = await axios.get(url + "/api/food/list");
     setFoodList(response.data.data);
-    };
-    
+  };
+
   const loadCartData = async (token) => {
     const response = await axios.post(
       url + "/api/cart/get",
       {},
       { headers: { token } }
     );
-    setCartItems(response.data.cartData);
+    setCartItems(response.data.cartData || {});
   };
 
   useEffect(() => {

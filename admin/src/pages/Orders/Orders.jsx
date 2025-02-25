@@ -78,6 +78,7 @@ const Orders = ({ url }) => {
           </div>
         ))}
       </div>
+      {!orders.length > 0 && <h2>Orders Are Not Yet Added</h2>}
     </div>
   );
 };
